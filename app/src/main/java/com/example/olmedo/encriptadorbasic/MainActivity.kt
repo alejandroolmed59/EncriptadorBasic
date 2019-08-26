@@ -3,6 +3,7 @@ package com.example.olmedo.encriptadorbasic
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +25,16 @@ class MainActivity : AppCompatActivity() {
             if (sendIntent.resolveActivity(packageManager) != null) {
                 startActivity(sendIntent)
             }
+        }
+
+        btn_decrypt_inverse.setOnClickListener {
+            Toast.makeText(this, "FALTA QUE IMPLEMENTES ESTO 0T", Toast.LENGTH_LONG).show()
+        }
+        btn_cifrado_cesar.setOnClickListener {
+            Toast.makeText(this, "si", Toast.LENGTH_LONG).show()
+            val intent = Intent(this, CifradoCesarActivity::class.java)
+            startActivity(intent)
+
         }
     }
 
