@@ -28,16 +28,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         btn_decrypt_inverse.setOnClickListener {
-            Toast.makeText(this, "FALTA QUE IMPLEMENTES ESTO 0T", Toast.LENGTH_LONG).show()
+            val res = revertidor(Tv_msg.text.toString())
+            resultado.text = res
         }
     }
 
     private fun revertidor(msg: String): String {
         val newMsg = msg.split(" ")
-        //var aux = mutableListOf<String>()
         var newWord: String = ""
         for (word in newMsg) {
-            //  aux.add(word.reversed())
             newWord = newWord + " " + word.reversed()
         }
         return newWord
