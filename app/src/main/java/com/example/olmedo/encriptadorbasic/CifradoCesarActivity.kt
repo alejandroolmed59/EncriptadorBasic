@@ -35,7 +35,8 @@ class CifradoCesarActivity : AppCompatActivity() {
 
         btn_share_cesar.setOnClickListener {
             val sendIntent = Intent().apply {
-                val textMessage = "El mensaje encriptado es: " + tv_resultado_cesar.text.toString()
+                val textMessage = "El mensaje encriptado es: " + tv_resultado_cesar.text.toString()+"\n" +
+                        "Con key: "+key.toString()
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_TEXT, textMessage)
                 type = "text/plain"
