@@ -30,12 +30,6 @@ class MainActivity : AppCompatActivity() {
         btn_decrypt_inverse.setOnClickListener {
             Toast.makeText(this, "FALTA QUE IMPLEMENTES ESTO 0T", Toast.LENGTH_LONG).show()
         }
-        btn_cifrado_cesar.setOnClickListener {
-            Toast.makeText(this, "si", Toast.LENGTH_LONG).show()
-            val intent = Intent(this, CifradoCesarActivity::class.java)
-            startActivity(intent)
-
-        }
     }
 
     private fun revertidor(msg: String): String {

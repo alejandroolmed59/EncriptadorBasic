@@ -7,14 +7,30 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_cifrado_cesar.*
 
 class CifradoCesarActivity : AppCompatActivity() {
+    var key = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cifrado_cesar)
 
         btn_encrypt_cesar.setOnClickListener {
-            val msgCrypted = encryptCesar(et_msg_cesar.text.toString(), 3)
+            key = if (sp_key.selectedItem.toString() == "Key") {
+                3
+            } else {
+                sp_key.selectedItem.toString().toInt()
+            }
+            val msgCrypted = encryptCesar(et_msg_cesar.text.toString(), key)
             tv_resultado_cesar.text = msgCrypted
+        }
+
+        btn_decrypt_cesar.setOnClickListener {
+            key = if (sp_key.selectedItem.toString() == "Key") {
+                3
+            } else {
+                sp_key.selectedItem.toString().toInt()
+            }
+            val msgDecrypted = decryptCesar(et_msg_cesar.text.toString(), key)
+            tv_resultado_cesar.text = msgDecrypted
         }
 
         btn_share_cesar.setOnClickListener {
@@ -29,10 +45,6 @@ class CifradoCesarActivity : AppCompatActivity() {
             }
         }
 
-        btn_decrypt_cesar.setOnClickListener {
-            val msgDecrypted = decryptCesar(et_msg_cesar.text.toString(), 3)
-            tv_resultado_cesar.text = msgDecrypted
-        }
     }
 
     private fun encryptCesar(msg: String, key: Int): String {
@@ -60,13 +72,6 @@ class CifradoCesarActivity : AppCompatActivity() {
                 msgCifrado += char
             }
         }
-        /*for ((i, char) in letras.withIndex()) {
-            msgCifrado += if (charAbecedariosMin.contains(char)) {
-                charAbecedariosMin[(charAbecedariosMin.indexOf(char) + key]
-            } else {
-                char
-            }
-        }*/
         return msgCifrado
     }
 
