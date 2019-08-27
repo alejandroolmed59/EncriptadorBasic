@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_cifrado_cesar.*
-import kotlinx.android.synthetic.main.activity_main.*
 
 class CifradoCesarActivity : AppCompatActivity() {
 
@@ -14,7 +13,7 @@ class CifradoCesarActivity : AppCompatActivity() {
         setContentView(R.layout.activity_cifrado_cesar)
 
         btn_encrypt_cesar.setOnClickListener {
-            val msgCrypted = encryptCesar(et_msg_cesar.text.toString(), 3,1)
+            val msgCrypted = encryptCesar(et_msg_cesar.text.toString(), 3)
             tv_resultado_cesar.text = msgCrypted
         }
 
@@ -30,27 +29,72 @@ class CifradoCesarActivity : AppCompatActivity() {
             }
         }
 
-        bbtn_decrypt_cesar.setOnClickListener {
-            Toast.makeText(this, "Aun no lo implemento lol", Toast.LENGTH_LONG).show()
-            /*val msgDecrypted = encryptCesar(tv_resultado_cesar.toString(), 3,-1)
-            tv_resultado_cesar.text = msgDecrypted*/
+        btn_decrypt_cesar.setOnClickListener {
+            val msgDecrypted = decryptCesar(et_msg_cesar.text.toString(), 3)
+            tv_resultado_cesar.text = msgDecrypted
         }
     }
 
-    private fun encryptCesar(msg: String, key: Int,sign:Int): String {
-        val letrasAbecedario = "abcdefghijklmnñopqrstuvwxyz"
-        val charAbecedarios = letrasAbecedario.toCharArray()
-        var msgCifrado = ""
-        //Posiciones a adelantar
-        //Convertimos el mensaje en un array de caracteres
+    private fun encryptCesar(msg: String, key: Int): String {
+        val letrasAbecedarioMin = "abcdefghijklmnñopqrstuvwxyz"
+        val letrasAbecedarioMay = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
+        val charAbecedariosMin = letrasAbecedarioMin.toCharArray()
+        val charAbecedariosMay = letrasAbecedarioMay.toCharArray()
         val letras = msg.toCharArray()
-        for ((i, char) in letras.withIndex()) {
-            msgCifrado += if (charAbecedarios.contains(char)) {
-                charAbecedarios[((((charAbecedarios.indexOf(char)) + (key*sign)) % 27))]
+        var code = key % 27
+        var msgCifrado = ""
+        for (char in letras) {
+            if ((char in 'a'..'z') || char == 'ñ') {
+                msgCifrado += if (charAbecedariosMin.indexOf(char) + code > charAbecedariosMin.indexOf('z')) {
+                    charAbecedariosMin[charAbecedariosMin.indexOf(char) + code - 27]
+                } else {
+                    charAbecedariosMin[charAbecedariosMin.indexOf(char) + code]
+                }
+            } else if ((char in 'A'..'Z') || char == 'Ñ') {
+                msgCifrado += if (charAbecedariosMay.indexOf(char) + code > charAbecedariosMay.indexOf('Z')) {
+                    charAbecedariosMay[charAbecedariosMay.indexOf(char) + code - 27]
+                } else {
+                    charAbecedariosMay[charAbecedariosMay.indexOf(char) + code]
+                }
+            } else {
+                msgCifrado += char
+            }
+        }
+        /*for ((i, char) in letras.withIndex()) {
+            msgCifrado += if (charAbecedariosMin.contains(char)) {
+                charAbecedariosMin[(charAbecedariosMin.indexOf(char) + key]
             } else {
                 char
             }
-        }
+        }*/
         return msgCifrado
+    }
+
+    private fun decryptCesar(msg: String, key: Int): String {
+        val letrasAbecedarioMin = "abcdefghijklmnñopqrstuvwxyz"
+        val letrasAbecedarioMay = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
+        val charAbecedariosMin = letrasAbecedarioMin.toCharArray()
+        val charAbecedariosMay = letrasAbecedarioMay.toCharArray()
+        val letras = msg.toCharArray()
+        var code = key % 27
+        var msgDescifrado = ""
+        for (char in letras) {
+            if ((char in 'a'..'z') || char == 'ñ') {
+                msgDescifrado += if (charAbecedariosMin.indexOf(char) - code < charAbecedariosMin.indexOf('a')) {
+                    charAbecedariosMin[charAbecedariosMin.indexOf(char) - code + 27]
+                } else {
+                    charAbecedariosMin[charAbecedariosMin.indexOf(char) - code]
+                }
+            } else if ((char in 'A'..'Z') || char == 'Ñ') {
+                msgDescifrado += if (charAbecedariosMay.indexOf(char) - code < charAbecedariosMay.indexOf('A')) {
+                    charAbecedariosMay[charAbecedariosMay.indexOf(char) - code + 27]
+                } else {
+                    charAbecedariosMay[charAbecedariosMay.indexOf(char) - code]
+                }
+            } else {
+                msgDescifrado += char
+            }
+        }
+        return msgDescifrado
     }
 }
